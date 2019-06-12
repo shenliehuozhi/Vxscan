@@ -1,7 +1,7 @@
 # author: al0ne
 # https://github.com/al0ne
 
-from lib.verify import Probe
+from lib.verify import get_list
 from lib.random_header import HEADERS
 from lxml import etree
 import requests
@@ -19,7 +19,7 @@ def get_title(url):
 
 def check(ip, ports, apps):
     result = []
-    probe = Probe(ip, ports)
+    probe = get_list(ip, ports)
     for i in probe:
         out = get_title(i)
         if out:

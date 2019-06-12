@@ -12,18 +12,19 @@ def verify(vuln, port, apps):
     if vuln[0] == 'True':
         return True
     vuln = list(map(lambda x: x.lower(), vuln))
-    apps = list(map(lambda x: x.lower(), apps))
     for i in port:
         server, port = i.split(':')
         if (server in vuln) or (port in vuln):
             return True
-    for _ in apps:
-        if _ in vuln:
-            return True
-    return False
+    if apps:
+        apps = list(map(lambda x: x.lower(), apps))
+        for _ in apps:
+            if _ in vuln:
+                return True
+        return False
 
 
-def Probe(ip, ports):
+def get_list(ip, ports):
     result = []
     for i in ports:
         server, port = i.split(':')
@@ -35,7 +36,7 @@ def Probe(ip, ports):
     return result
 
 
-def GetHosts(ip, USER):
+def get_hosts(ip, USER):
     result = []
     for name in USER:
         for passwd in PASS:

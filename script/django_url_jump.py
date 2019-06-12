@@ -2,7 +2,7 @@
 # https://github.com/al0ne
 
 import requests
-from lib.verify import Probe
+from lib.verify import get_list
 from lib.random_header import HEADERS
 
 
@@ -15,7 +15,7 @@ def run(url):
 
 def check(ip, ports, apps):
     result = []
-    probe = Probe(ip, ports)
+    probe = get_list(ip, ports)
     for i in probe:
         result.append(run(i))
     return result

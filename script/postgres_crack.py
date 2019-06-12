@@ -1,4 +1,4 @@
-from lib.verify import verify, GetHosts
+from lib.verify import verify, get_hosts
 import concurrent.futures
 import psycopg2
 
@@ -20,7 +20,7 @@ def mysqlBruteforce(task):
 def check(ip, ports, apps):
     global result
     if verify(vuln, ports, apps):
-        hosts = GetHosts(ip, user)
+        hosts = get_hosts(ip, user)
         with concurrent.futures.ThreadPoolExecutor(max_workers=40) as executor:
             executor.map(mysqlBruteforce, hosts)
     return result

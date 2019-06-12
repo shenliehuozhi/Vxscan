@@ -72,10 +72,11 @@ def reverse_domain(host):
     # 查询旁站
     result = []
     data = {"remoteAddress": "{0}".format(host), "key": ""}
-    HEADERS.update({'Referer': 'https://www.yougetsignal.com/tools/web-sites-on-web-server/'})
-    HEADERS.update({'origin': 'https://www.yougetsignal.com'})
+    header = HEADERS
+    header.update({'Referer': 'https://www.yougetsignal.com/tools/web-sites-on-web-server/'})
+    header.update({'origin': 'https://www.yougetsignal.com'})
     try:
-        r = requests.post('https://domains.yougetsignal.com/domains.php', headers=HEADERS, data=data, timeout=5)
+        r = requests.post('https://domains.yougetsignal.com/domains.php', headers=header, data=data, timeout=5)
         text = json.loads(r.text)
         domain = tldextract.extract(host)
         for i in text.get('domainArray'):
@@ -196,7 +197,6 @@ def start(url):
             webinfo = (WebPage(r.url, r.content.decode('utf8'), r.headers).info())
             result = checkwaf(r.headers, r.text[:10000])
             if result == 'NoWAF':
-                HEADERS['User-Agent'] = HEADERS.get('User-Agent') + payload
                 r = requests.get(
                     url + '/index.php?id=1 ' + payload, headers=HEADERS, timeout=TIMEOUT)
                 result = checkwaf(r.headers, r.text[:10000])

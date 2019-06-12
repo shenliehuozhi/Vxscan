@@ -16,3 +16,4 @@ lxml
 pymongo
 psycopg2
 virustotal_python
+Cython

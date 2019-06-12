@@ -5,7 +5,7 @@ import random
 import requests
 import http.client
 from urllib import request
-from lib.verify import Probe
+from lib.verify import get_list
 from lib.random_header import HEADERS
 
 vuln = ['java', 'jsp']
@@ -34,7 +34,7 @@ class struts():
             self.linux)
         try:
             r = requests.get(self.url + payload, headers=HEADERS, timeout=self.timeout)
-            if str(self.random) in r.text:
+            if str(self.random) in r.text and '<html>' not in r.text:
                 self.result.append('Apache S2-032 Vulnerability: ' + self.url)
         except:
             pass
@@ -55,7 +55,7 @@ class struts():
             pass
         if 'text' in locals().keys():
             self.random = str(self.random)
-            if self.random.encode('utf-8') in text:
+            if self.random.encode('utf-8') in text and b'<html>' not in text:
                 self.result.append('Apache S2-045 Vulnerability: ' + self.url)
 
     def st048(self):
@@ -71,7 +71,7 @@ class struts():
             pass
         if 'text' in locals().keys():
             self.random = str(self.random)
-            if self.random.encode('utf-8') in text:
+            if self.random.encode('utf-8') in text and b'<html>' not in text:
                 self.result.append('Apache S2-048 Vulnerability: ' + self.url)
 
     def run(self):
@@ -84,7 +84,7 @@ class struts():
 
 def check(ip, ports, apps):
     output = []
-    probe = Probe(ip, ports)
+    probe = get_list(ip, ports)
     for i in probe:
         output.extend(struts(i).run())
     return output

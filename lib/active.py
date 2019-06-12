@@ -46,6 +46,6 @@ class ActiveCheck():
 
 if __name__ == "__main__":
     result = ActiveCheck(
-        ['http://www.baidu.com:8080']
+        ['127.0.0.1']
     ).pool()
     print(result)
